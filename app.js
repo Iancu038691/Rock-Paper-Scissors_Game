@@ -12,7 +12,9 @@ function getComputerChoice() {
         return `Paper`;
     } else return `Scissors`;
 }
-
+    let countingLose = 0;
+    let countingWin = 0;
+    let countingEqual = 0;
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
@@ -32,25 +34,49 @@ function playRound(playerSelection, computerSelection) {
         return `You Lose! ${computerSelection} beat ${playerSelection}`;
     }
 }
-function game() {
-    let countingLose = 0;
-    let countingWin = 0;
-    let countingEqual = 0;
-    for(let i = 1; i<=5;i++ )
-    {
-        let playerChoice = prompt('Your choice is','');
-        let Result = playRound(playerChoice,getComputerChoice());
-        console.log(Result);
+function game(playerChoice) {
+    if(playerChoice==='') {
+    const scoreNow = document.querySelector('.scoreNow');
+    scoreNow.textContent =`Wins: ${countingWin}   Lose: ${countingLose}  Draw: ${countingEqual}`;
+        return;
+}  
+    let Result = playRound(playerChoice,getComputerChoice());
+        
         if(Result.slice(0,9).trim() === `You won!` ) {
             countingWin++;
         } else if(Result.slice(0,9).trim() === `You Lose!`) {
             countingLose++;
         } else countingEqual++;
-    }
-    if(countingWin > countingLose) {
-        alert(`You won the game with ${countingWin} wins ${countingLose} lose and ${countingEqual} equals`);
-    } else if(countingWin < countingLose) {
-        alert(`You lose the game with ${countingWin} wins ${countingLose} lose and ${countingEqual} equals`);
-    } else alert(`Draw! ${countingWin} wins ${countingLose} lose and ${countingEqual} equals`);
     
-}
+    if(countingWin === 5) {
+        div1.textContent = (`You won the game with ${countingWin} wins ${countingLose} lose and ${countingEqual} equals`);
+    } else if(countingLose=== 5) {
+        div1.textContent = (`You lose the game with ${countingWin} wins ${countingLose} lose and ${countingEqual} equals`);
+    }
+    console.log(Result)
+} 
+const div1 = document.querySelector('div.content');
+
+
+const gameEvent = document.querySelector('.gameEvent');
+gameEvent.addEventListener('click', () => {
+    game(``);
+});
+
+const Paper = document.querySelector('.Paper');
+Paper.addEventListener('click', () => {
+    game(`Paper`);
+});
+const Scissors = document.querySelector('.Scissors');
+Scissors.addEventListener('click', () => {
+    game(`Scissors`);
+
+});
+const Rock = document.querySelector('.Rock');
+Rock.addEventListener('click', () => {
+    game(`Rock`);
+
+});
+
+// const gameEvent = document.querySelector('.gameEvent');
+// gameEvent.addEventListener('click',game());
